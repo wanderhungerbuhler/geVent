@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "img": "https://images.sympla.com.br/624f5c1b05f69-lg.png",
+      "category": "Festas e Shows",
+      "title": "Subajovem BH",
+      "dateDayAndMonth": "21 de Maio",
+      "description": "Um evento para mais de 100 mil pessoas, em um local totalmente reformado!",
+      "slug": "subajovem-bh"
+    },
+    {
+      "id": "2",
+      "img": "https://images.sympla.com.br/6204070a26475-lg.jpg",
+      "category": "Cursos e Workshops",
+      "title": "Universo TOTVS 2022",
+      "dateDayAndMonth": "21 de Maio",
+      "description": "O Universo TOTVS, maior evento de tecnologia e negócios, voltou. Grandes nomes e nossos maiores...",
+      "slug": "universo-totvs-2022"
+    }
+  ]
+}

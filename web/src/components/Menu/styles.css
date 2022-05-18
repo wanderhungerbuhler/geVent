@@ -1,0 +1,14 @@
+.link {
+  text-decoration: none;
+  color: #54545A;
+  font-size: 40px;
+  background: none;
+}
+
+.active {
+  text-decoration: none;
+  color: #FFF;
+  background-color: #6C5DD3;
+  font-size: 40px;
+  border-radius: 7px;
+}
