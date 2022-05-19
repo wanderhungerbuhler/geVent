@@ -1,6 +1,7 @@
 import { Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
 
 import { Header } from '../../components/Header';
+import React, { useEffect, useState } from 'react';
 import { Menu } from '../../components/Menu';
 
 import { MagnifyingGlass, MapPin } from 'phosphor-react';
@@ -10,9 +11,45 @@ import FestasShows from '../../assets/festas-shows.png';
 import CursosEWorkshops from '../../assets/cursos-workshops.jpeg';
 import { AllRights } from '../../components/AllRights';
 
-import api from '../../../services/server.json';
+import apiJSON from '../../../services/server.json';
+import { api } from '../../../services/api';
+
+interface DataProps {
+  id: string;
+  img_url: string;
+  title: string;
+  description: string;
+  price: string;
+  date: string;
+
+}
 
 export function Dashboard() {
+  const [d, setD] = useState<DataProps | undefined>(undefined);
+
+  useEffect(() => {
+    async function Testando() {
+      await api.get('/tickets').then(response => {
+        setD(response.data)
+      });
+    }
+
+    Testando();
+  }, [])
+
+  // let rr = [];
+
+  // d?.map(item => {
+  //   const items = {
+  //     id: item.id,
+  //     img_url: item.img_url,
+  //     title: item.title,
+  //   }
+  //   rr.push(item);
+  //   console.log(items)
+  // })
+
+
   return (
     <>
       <Flex w={1280} m="auto" mt="10" mb="10">
@@ -36,19 +73,31 @@ export function Dashboard() {
             </Flex>
           </InputGroup>
 
+          {d?.data?.map((value, index) => {
+            return (
+              <BoxEvents key={`${index}`}
+                img={value.img_url}
+                category={value.category.name}
+                title={value.title}
+                dateDayAndMonth={value.date}
+                description={value.description}
+                slug={value.title as any}
+              />
+            )
+          })}
 
-          {api.data.map(d => (
+
+          {/* {d.map(d => {
             <BoxEvents
-              key={d.id}
-              img={d.img}
-              category={d.category}
+              key={d?.id}
+              img={d.img_url}
+              category={d.title}
               title={d.title}
-              dateDayAndMonth={d.dateDayAndMonth}
+              dateDayAndMonth={d.date}
               description={d.description}
-              slug={d.slug as any}
-              id={d.id}
+              slug={d.title as any}
             />
-          ))}
+          })} */}
 
           <AllRights />
         </Flex>

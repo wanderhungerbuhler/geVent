@@ -1,4 +1,5 @@
 import React, { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import { useAuth } from '../hooks/authContext';
 
@@ -13,16 +14,18 @@ const PrivateRoute = ({ children, redirectTo }: any) => {
 
 export function Router() {
   return (
-    <Routes>
-      <Route element={<PrivateRoute redirectTo="/"><Dashboard /></PrivateRoute>}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/tickets" element={<Dashboard />} />
-        <Route path="/wishlist" element={<Dashboard />} />
-        <Route path="/cart" element={<Cart />}>
-          <Route path=":id" />
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PrivateRoute redirectTo="/"><Dashboard /></PrivateRoute>}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/tickets" element={<Dashboard />} />
+          <Route path="/wishlist" element={<Dashboard />} />
+          <Route path="/cart" element={<Cart />}>
+            <Route path=":id" />
+          </Route>
         </Route>
-      </Route>
-      <Route path="/*" element={<SignIn />} />
-    </Routes>
+        <Route path="/*" element={<SignIn />} />
+      </Routes>
+    </BrowserRouter>
   )
 }

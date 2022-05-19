@@ -26,7 +26,7 @@ export function AuthProvider({ children }: AuthProvider) {
 
   getAuth(app).onAuthStateChanged(user => {
     setUser(user as User);
-    console.log(user)
+    // console.log(user)
   });
 
   async function logOut() {

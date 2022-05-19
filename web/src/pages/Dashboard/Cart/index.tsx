@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Flex, FormControl, Image, Select, Stack, Text } from '@chakra-ui/react';
@@ -13,6 +13,8 @@ import { Input } from '../../../components/Form/input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useParams, useMatch } from 'react-router-dom';
 
+import { api } from '../../../../services/api';
+
 interface FormDataProps {
   ticket: string;
   full_name: string;
@@ -20,7 +22,7 @@ interface FormDataProps {
   cpf: string;
 }
 
-import api from '../../../../services/server.json';
+import apiJSON from '../../../../services/server.json';
 
 const schema = Yup.object().shape({
   full_name: Yup.string().required('Digite o seu nome'),
@@ -34,8 +36,7 @@ export function Cart() {
 
   const data = useParams();
 
-  const events = api.data.filter(d => d?.id === data?.id);
-
+  const events = apiJSON.data.filter(d => d?.id === data?.id);
 
   const { errors } = formState;
 
@@ -49,14 +50,13 @@ export function Cart() {
       return;
     }
 
-    const data = {
-      ticket: ticket,
+    const response = await api.post('/users', {
       full_name: form?.full_name,
       email: form?.email,
       cpf: form?.cpf
-    }
+    });
 
-    console.log(data);
+    console.log(response);
 
   }
 
