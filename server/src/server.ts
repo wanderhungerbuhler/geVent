@@ -126,6 +126,6 @@ app.post('/users', async (req, res) => {
   return res.status(201).json({ data: users })
 });
 
-app.listen(3333, () => {
+app.listen(process.env.PORT || 3333, () => {
   console.log(`Server is running!`)
 })
