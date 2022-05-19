@@ -43,13 +43,19 @@ app.get('/tickets', async (req, res) => {
 })
 
 app.post('/users', async (req, res) => {
-  const { full_name, cpf, email } = req.body;
+  const { full_name, cpf, email, id_ticket, qtd_ticket_event, title_event, date_event, description_event } = req.body;
 
   const users = await prisma.users.create({
     data: {
       full_name,
       cpf,
       email,
+      tickets: {
+        connect: {
+          id: String(id_ticket),
+
+        }
+      }
       // tickets: {
       //   create: {
       //     name: "Google",
@@ -88,7 +94,7 @@ app.post('/users', async (req, res) => {
           </h1>
           <div style="padding: 0 10px;">
             <p style="font-size: 15px; font-family: 'Poppins', sans-serif; color: #383838;">
-              Seu ingresso para o evento <b>Google</b> está aguardando você!
+              Seu ingresso para o evento <b>${title_event}</b> está aguardando você!
             </p>
             <p style="font-size: 15px; font-family: 'Poppins', sans-serif; color: #383838;">
               Este e-mail, é o comprovante do pedido de compra feito pelo sistema <b style="color: #6C5DD3;">geVent</b>.
@@ -96,17 +102,18 @@ app.post('/users', async (req, res) => {
             <p style="font-size: 15px; font-family: 'Poppins', sans-serif; color: #383838;">
               Abaixo, está o comprovante detalhado.
             </p>
-            <div style="margin: 0 auto;">
-              <h3>Subajovem BH</h3
-              <span>21 de Maio</span>
-              <p><b>Descrição do Evento</b></p>
-              <p>Um evento para mais de 100 mil pessoas, em um local totalmente reformado!</p>
+            <div style="margin: 0 auto; padding: 10px; background-image: linear-gradient(90deg, #6C5DD3, #3E8CFF);">
+              <h3 style="font-size: 20px; font-family: 'Poppins', sans-serif; color: #FFFFFF; text-transform: uppercase;">${title_event}</h3>
+              <p style="font-size: 15px; font-family: 'Poppins', sans-serif; color: #FFFFFF;">Qtd. Ingressos: ${qtd_ticket_event}</p>
+              <p style="font-size: 15px; font-family: 'Poppins', sans-serif; color: #FFFFFF;">Data do Evento: ${date_event}</p>
+              <p style="font-size: 20px; font-family: 'Poppins', sans-serif; color: #FFFFFF;"><b>Descrição do Evento</b></p>
+              <p style="font-size: 15px; font-family: 'Poppins', sans-serif; color: #FFFFFF;">${description_event}</p>
             </div>
             <p style="font-size: 12px; text-align: center; font-family: 'Poppins', sans-serif; color: #383838;">
               *Em caso de dúvidas, pedimos que entre em contato através dos números:
             </p>
             <p style="font-size: 12px; text-align: center; font-family: 'Poppins', sans-serif; color: #383838;">
-              <b>(21) 99999-9999</b>
+              <b>(21) 97585-4490</b>
             </p>
           </div>
         </div>
