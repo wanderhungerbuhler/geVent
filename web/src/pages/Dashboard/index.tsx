@@ -21,7 +21,6 @@ interface DataProps {
   description: string;
   price: string;
   date: string;
-
 }
 
 export function Dashboard() {
@@ -75,7 +74,9 @@ export function Dashboard() {
 
           {d?.data?.map((value, index) => {
             return (
-              <BoxEvents key={`${index}`}
+              <BoxEvents
+                key={`${value.id}`}
+                id={`${value.id}`}
                 img={value.img_url}
                 category={value.category.name}
                 title={value.title}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { filter } from 'rxjs/operators';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Flex, FormControl, Image, Select, Stack, Text } from '@chakra-ui/react';
@@ -22,41 +23,74 @@ interface FormDataProps {
   cpf: string;
 }
 
-import apiJSON from '../../../../services/server.json';
-
 const schema = Yup.object().shape({
   full_name: Yup.string().required('Digite o seu nome'),
   cpf: Yup.string().required('Digite o seu cpf'),
 })
+
+interface DataProps {
+  data: {
+    id: string;
+    img_url: string;
+    title: string;
+    description: string;
+    price: string;
+    map: any;
+    filter: any;
+  }
+}
 
 export function Cart() {
   const { register, handleSubmit, formState, reset, resetField } = useForm({
     resolver: yupResolver(schema)
   });
 
-  const data = useParams();
+  const dataQuery = useParams();
 
-  const events = apiJSON.data.filter(d => d?.id === data?.id);
+  const [loading, setLoading] = useState(false);
 
   const { errors } = formState;
 
   const [ticket, setTicket] = useState('');
 
-  const handleSubmitRegister: SubmitHandler<FormDataProps | FieldValues> = async (form, event) => {
-    event?.preventDefault();
+  const [events, setEvents] = useState<DataProps | undefined>(undefined);
+
+  useEffect(() => {
+    async function loadUniqueItem() {
+      await api.get('/tickets').then(response => {
+        setEvents(response.data);
+      })
+    }
+
+    loadUniqueItem();
+  }, [])
+
+  const event = events?.data?.filter((event: any) => event.id === String(dataQuery.id))
+
+  const handleSubmitRegister: SubmitHandler<FormDataProps | FieldValues> = async (form, events) => {
+    events?.preventDefault();
 
     if (ticket === "") {
       alert("Selecione a Quantidade de Ingressos");
       return;
     }
 
-    const response = await api.post('/users', {
+    setLoading(true);
+
+    await api.post('/users', {
       full_name: form?.full_name,
       email: form?.email,
-      cpf: form?.cpf
-    });
+      cpf: form?.cpf,
 
-    console.log(response);
+      id_ticket: event?.map((event: any) => event.id),
+      qtd_ticket_event: ticket,
+      title_event: event?.map((event: any) => event.title),
+      date_event: event?.map((event: any) => event.date),
+      description_event: event?.map((event: any) => event.description)
+    }).then(response => {
+      console.log(response.status)
+      setLoading(false);
+    })
 
   }
 
@@ -75,9 +109,9 @@ export function Cart() {
               bgClip="text">Finalize sua compra :)</Text>
           </Stack>
 
-          {events.map(event => (
+          {event?.map((event: any) => (
             <>
-              <Image src={`${event.img}`} borderRadius="7" />
+              <Image src={`${event.img_url}`} borderRadius="7" />
 
               <Text fontSize="30px" fontWeight="semibold" mt="30px">Descrição do Evento</Text>
               <Text color="brand.100">
@@ -140,6 +174,7 @@ export function Cart() {
                 _hover={{
                   bgGradient: "linear(to-l, #6C5DD3, #3E8CFF)"
                 }}
+                isLoading={loading}
               >Finalizar Pedido</Button>
             </Stack>
           </FormControl>

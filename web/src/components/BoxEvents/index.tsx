@@ -12,9 +12,11 @@ interface Props extends NavigateUrl {
   dateDayAndMonth: string;
   description: string;
   img: string;
+  id: string;
 }
 
-export function BoxEvents({ img, category, title, dateDayAndMonth, description }: Props) {
+export function BoxEvents({ id, img, category, title, dateDayAndMonth, description }: Props) {
+  const navigate = useNavigate();
 
   return (
     <>
@@ -28,7 +30,7 @@ export function BoxEvents({ img, category, title, dateDayAndMonth, description }
           shadow="base"
           overflow="hidden"
           cursor="pointer"
-          onClick={() => { }}
+          onClick={() => navigate(`/cart/${id}`)}
         >
           <Stack>
             <Image src={img} />
