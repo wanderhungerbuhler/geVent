@@ -24,7 +24,7 @@ interface DataProps {
 }
 
 export function Dashboard() {
-  const [d, setD] = useState<DataProps | undefined>(undefined);
+  const [d, setD]: any = useState<DataProps | undefined>(undefined);
 
   useEffect(() => {
     async function Testando() {
@@ -72,7 +72,7 @@ export function Dashboard() {
             </Flex>
           </InputGroup>
 
-          {d?.data?.map((value, index) => {
+          {d?.data?.map((value: any, index: any) => {
             return (
               <BoxEvents
                 key={`${value.id}`}
