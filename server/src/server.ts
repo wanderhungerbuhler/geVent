@@ -9,42 +9,60 @@ app.use(cors());
 
 const transport = nodemailer.createTransport({
   // GMAIL
-  service: "gmail",
-  auth: {
-    user: "whfdev@gmail.com",
-    pass: "W4nd3r@952022"
-  },
+  // service: "gmail",
+  // auth: {
+  //   user: "whfdev@gmail.com",
+  //   pass: "W4nd3r@952022"
+  // },
 
   // Mail Trap
-  // host: "smtp.mailtrap.io",
-  // port: 2525,
-  // auth: {
-  //   user: "c08609b3481b19",
-  //   pass: "fded3245aa792e"
-  // }
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "c08609b3481b19",
+    pass: "fded3245aa792e"
+  }
 });
 
-app.post('/mail', async (req, res) => {
+app.get('/tickets', async (req, res) => {
+  const data = await prisma.tickets.findMany({
+    select: {
+      img_url: true,
+      title: true,
+      description: true,
+      price: true,
+      date: true,
+      id: true,
+      category: {
+        select: { id: true, name: true }
+      },
+    },
+  })
+
+  return res.status(200).json({ data })
+})
+
+app.post('/users', async (req, res) => {
   const { full_name, cpf, email } = req.body;
 
   const users = await prisma.users.create({
     data: {
-      tickets: {
-        create: {
-          name: "Google",
-          price: "R$ 50.000",
-          initial_date: new Date(),
-          final_date: new Date(),
-          category: {
-            create: {
-              name: "Cursos e Workshops"
-            }
-          }
-        },
-      },
       full_name,
       cpf,
-      email
+      email,
+      // tickets: {
+      //   create: {
+      //     name: "Google",
+      //     price: "R$ 50.000",
+      //     initial_date: new Date(),
+      //     final_date: new Date(),
+      //     category: {
+      //       create: {
+      //         name: "Cursos e Workshops"
+      //       }
+      //     }
+      //   },
+      // },
     }
   });
 
@@ -79,14 +97,10 @@ app.post('/mail', async (req, res) => {
               Abaixo, está o comprovante detalhado.
             </p>
             <div style="margin: 0 auto;">
-              <div style="position: absolute;display:block;margin-top:70px;margin-left:50px;width:10px;height:10px;color: #ff0000;font-family: 'Poppins';line-height: 25px;">
-                <h1>Testando Posicionamento</h1>
-              </div>
-              <img
-                width="590"
-                height="290"
-                src="https://agendacadastur.vercel.app/api/agendamento?name=Wander&email=whfdev@gmai..com&cadastur=1234567&date=2022-05-17&hour=10"
-              />
+              <h3>Subajovem BH</h3
+              <span>21 de Maio</span>
+              <p><b>Descrição do Evento</b></p>
+              <p>Um evento para mais de 100 mil pessoas, em um local totalmente reformado!</p>
             </div>
             <p style="font-size: 12px; text-align: center; font-family: 'Poppins', sans-serif; color: #383838;">
               *Em caso de dúvidas, pedimos que entre em contato através dos números:

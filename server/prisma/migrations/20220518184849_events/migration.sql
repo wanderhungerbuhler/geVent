@@ -11,10 +11,11 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "tickets" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "img_url" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
     "price" TEXT NOT NULL,
-    "initial_date" TIMESTAMP(3) NOT NULL,
-    "final_date" TIMESTAMP(3) NOT NULL,
+    "description" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
     "usersId" TEXT,
 
     CONSTRAINT "tickets_pkey" PRIMARY KEY ("id")

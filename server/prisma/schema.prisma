@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,40 +8,34 @@ datasource db {
 }
 
 model Users {
-  id String @id @default(uuid())
-
+  id        String    @id @default(uuid())
   full_name String
   email     String
   cpf       String
-
-  tickets Tickets[]
+  tickets   Tickets[]
 
   @@map("users")
 }
 
 model Tickets {
-  id String @id @default(uuid())
-
-  name         String
-  price        String
-  initial_date DateTime
-  final_date   DateTime
-
-  Users   Users?  @relation(fields: [usersId], references: [id])
-  usersId String?
-
-  category Category[]
+  id          String    @id @default(uuid())
+  img_url     String
+  title       String
+  price       String
+  description String
+  date        String
+  usersId     String?
+  Users       Users?    @relation(fields: [usersId], references: [id])
+  category    Category?
 
   @@map("tickets")
 }
 
 model Category {
-  id String @id @default(uuid())
-
-  name String
-
-  tickets   Tickets @relation(fields: [ticketsId], references: [id])
+  id        String  @id @default(uuid())
+  name      String
   ticketsId String  @unique
+  tickets   Tickets @relation(fields: [ticketsId], references: [id])
 
   @@map("category")
 }
