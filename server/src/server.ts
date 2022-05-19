@@ -11,16 +11,16 @@ const transport = nodemailer.createTransport({
   // GMAIL
   // service: "gmail",
   // auth: {
-  //   user: "whfdev@gmail.com",
-  //   pass: "W4nd3r@952022"
+  //   user: "",
+  //   pass: ""
   // },
 
   // Mail Trap
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: "c08609b3481b19",
-    pass: "fded3245aa792e"
+    user: process.env.NODEMAILER_MAIL_USER,
+    pass: process.env.NODEMAILER_MAIL_PASS
   }
 });
 
