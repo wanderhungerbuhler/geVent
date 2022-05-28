@@ -4,8 +4,8 @@ import cors from 'cors';
 import { prisma } from '../prisma/prisma';
 
 const app = express();
-app.use(express.json())
 app.use(cors());
+app.use(express.json())
 
 const transport = nodemailer.createTransport({
   // GMAIL
@@ -39,7 +39,7 @@ app.get('/tickets', async (req, res) => {
     },
   })
 
-  return res.status(200).json({ data })
+  return res.status(200).json({ data });
 })
 
 app.post('/users', async (req, res) => {
@@ -123,9 +123,9 @@ app.post('/users', async (req, res) => {
     `].join('\n')
   });
 
-  return res.status(201).json({ data: users })
+  return res.status(201).json({ data: users });
 });
 
 app.listen(process.env.PORT || 3333, () => {
-  console.log(`Server is running!`)
-})
+  console.log(`Server is running!`);
+});
