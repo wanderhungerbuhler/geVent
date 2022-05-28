@@ -9,19 +9,19 @@ app.use(cors());
 
 const transport = nodemailer.createTransport({
   // GMAIL
-  // service: "gmail",
-  // auth: {
-  //   user: "",
-  //   pass: ""
-  // },
+  service: "gmail",
+  auth: {
+    user: "whfdev@gmail.com",
+    pass: "W4nd3r@952022"
+  },
 
   // Mail Trap
-  host: "smtp.mailtrap.io",
-  port: 2525,
-  auth: {
-    user: process.env.NODEMAILER_MAIL_USER,
-    pass: process.env.NODEMAILER_MAIL_PASS
-  }
+  // host: "smtp.mailtrap.io",
+  // port: 2525,
+  // auth: {
+  //   user: process.env.NODEMAILER_MAIL_USER,
+  //   pass: process.env.NODEMAILER_MAIL_PASS
+  // }
 });
 
 app.get('/tickets', async (req, res) => {
