@@ -11,8 +11,8 @@ const transport = nodemailer.createTransport({
   // GMAIL
   service: "gmail",
   auth: {
-    user: "whfdev@gmail.com",
-    pass: "W4nd3r@952022"
+    user: process.env.NODEMAILER_GMAIL_USER,
+    pass: process.env.NODEMAILER_GMAIL_PASS,
   },
 
   // Mail Trap
