@@ -11,20 +11,19 @@ app.use(express.json())
 
 const transport = nodemailer.createTransport({
   // GMAIL
-  service: "gmail",
-  port: 465,
-  auth: {
-    user: process.env.NODEMAILER_GMAIL_USER,
-    pass: process.env.NODEMAILER_GMAIL_PASS,
-  },
+  // service: "gmail",
+  // auth: {
+  //   user: process.env.NODEMAILER_GMAIL_USER,
+  //   pass: process.env.NODEMAILER_GMAIL_PASS,
+  // },
 
   // Mail Trap
-  // host: "smtp.mailtrap.io",
-  // port: 2525,
-  // auth: {
-  //   user: process.env.NODEMAILER_MAILTRAP_USER,
-  //   pass: process.env.NODEMAILER_MAILTRAP_PASS
-  // }
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: process.env.NODEMAILER_MAILTRAP_USER,
+    pass: process.env.NODEMAILER_MAILTRAP_PASS
+  }
 });
 
 app.get('/tickets', async (req, res) => {
