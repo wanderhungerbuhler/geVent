@@ -12,6 +12,7 @@ model Users {
   full_name String
   email     String
   cpf       String
+  phone     String
   tickets   Tickets[]
 
   @@map("users")

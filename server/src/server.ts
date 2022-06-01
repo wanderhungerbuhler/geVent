@@ -1,6 +1,8 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
 import cors from 'cors';
+import twilio from 'twilio';
+
 import { prisma } from '../prisma/prisma';
 
 const app = express();
@@ -9,19 +11,19 @@ app.use(express.json())
 
 const transport = nodemailer.createTransport({
   // GMAIL
-  service: "gmail",
-  auth: {
-    user: process.env.NODEMAILER_GMAIL_USER,
-    pass: process.env.NODEMAILER_GMAIL_PASS,
-  },
+  // service: "gmail",
+  // auth: {
+  //   user: process.env.NODEMAILER_GMAIL_USER,
+  //   pass: process.env.NODEMAILER_GMAIL_PASS,
+  // },
 
   // Mail Trap
-  // host: "smtp.mailtrap.io",
-  // port: 2525,
-  // auth: {
-  //   user: process.env.NODEMAILER_MAIL_USER,
-  //   pass: process.env.NODEMAILER_MAIL_PASS
-  // }
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: process.env.NODEMAILER_MAILTRAP_USER,
+    pass: process.env.NODEMAILER_MAILTRAP_PASS
+  }
 });
 
 app.get('/tickets', async (req, res) => {
@@ -47,7 +49,7 @@ app.get('/tickets', async (req, res) => {
 })
 
 app.post('/users', async (req, res) => {
-  const { full_name, cpf, email, id_ticket, qtd_ticket_event, title_event, date_event, description_event } = req.body;
+  const { full_name, cpf, email, phone, id_ticket, qtd_ticket_event, title_event, date_event, description_event } = req.body;
 
   try {
     const users = await prisma.users.create({
@@ -55,25 +57,23 @@ app.post('/users', async (req, res) => {
         full_name,
         cpf,
         email,
+        phone,
         tickets: {
           connect: {
             id: String(id_ticket),
 
           }
         }
-        // tickets: {
-        //   create: {
-        //     name: "Google",
-        //     price: "R$ 50.000",
-        //     initial_date: new Date(),
-        //     final_date: new Date(),
-        //     category: {
-        //       create: {
-        //         name: "Cursos e Workshops"
-        //       }
-        //     }
-        //   },
-        // },
+      }
+    }).then(async (response) => {
+      if (response) {
+        const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+
+        await client.messages.create({
+          to: `+55${phone}`,
+          from: process.env.TWILIO_SMS_FROM,
+          body: `GEVENT: Solicitação de ingresso para ${title_event} recebido com sucesso!`,
+        })
       }
     });
 
