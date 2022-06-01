@@ -1,17 +1,14 @@
 import { Flex, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
 
 import { Header } from '../../components/Header';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu } from '../../components/Menu';
 
 import { MagnifyingGlass, MapPin } from 'phosphor-react';
 import { BoxEvents } from '../../components/BoxEvents';
 
-import FestasShows from '../../assets/festas-shows.png';
-import CursosEWorkshops from '../../assets/cursos-workshops.jpeg';
 import { AllRights } from '../../components/AllRights';
 
-import apiJSON from '../../../services/server.json';
 import { api } from '../../../services/api';
 
 interface DataProps {
@@ -27,26 +24,14 @@ export function Dashboard() {
   const [d, setD]: any = useState<DataProps | undefined>(undefined);
 
   useEffect(() => {
-    async function Testando() {
+    async function loadProducts() {
       await api.get('/tickets').then(response => {
         setD(response.data)
       });
     }
 
-    Testando();
+    loadProducts();
   }, [])
-
-  // let rr = [];
-
-  // d?.map(item => {
-  //   const items = {
-  //     id: item.id,
-  //     img_url: item.img_url,
-  //     title: item.title,
-  //   }
-  //   rr.push(item);
-  //   console.log(items)
-  // })
 
 
   return (
@@ -86,19 +71,6 @@ export function Dashboard() {
               />
             )
           })}
-
-
-          {/* {d.map(d => {
-            <BoxEvents
-              key={d?.id}
-              img={d.img_url}
-              category={d.title}
-              title={d.title}
-              dateDayAndMonth={d.date}
-              description={d.description}
-              slug={d.title as any}
-            />
-          })} */}
 
           <AllRights />
         </Flex>

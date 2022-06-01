@@ -1,4 +1,4 @@
-import { Flex, Image, Stack, Text, Link, Button } from '@chakra-ui/react';
+import { Flex, Image, Stack, Text, Link } from '@chakra-ui/react';
 
 import { Heart, LineSegments, ShoppingCart, SignOut, Ticket } from 'phosphor-react';
 

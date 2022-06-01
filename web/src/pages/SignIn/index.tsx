@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button, Flex, Image, Stack, Text } from '@chakra-ui/react';
 
 import GoogleSvg from '../../assets/googleSvg.svg';
@@ -9,7 +9,7 @@ import { ArrowDown } from 'phosphor-react';
 import app from '../../../services/firebaseConfig';
 import { getAuth, signInWithPopup, GoogleAuthProvider, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { useAuth } from '../../hooks/authContext';
-import { useNavigate, useRoutes } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function SignIn() {
   const [loading, setLoading] = useState(false);

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { filter } from 'rxjs/operators';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Flex, FormControl, Image, Select, Stack, Text } from '@chakra-ui/react';
@@ -7,25 +6,27 @@ import { Button, Flex, FormControl, Image, Select, Stack, Text } from '@chakra-u
 import { Header } from '../../../components/Header';
 import { Menu } from '../../../components/Menu';
 
-import FestasShows from '../../../assets/festas-shows.png'
 import { AllRights } from '../../../components/AllRights';
 
 import { Input } from '../../../components/Form/input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useParams, useMatch } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { api } from '../../../../services/api';
+import { useAuth } from '../../../hooks/authContext';
 
 interface FormDataProps {
   ticket: string;
   full_name: string;
   email: string;
   cpf: string;
+  phone: string;
 }
 
 const schema = Yup.object().shape({
-  full_name: Yup.string().required('Digite o seu nome'),
-  cpf: Yup.string().required('Digite o seu cpf'),
+  full_name: Yup.string().required('Digite o seu Nome Completo'),
+  cpf: Yup.string().required('Digite o seu CPF'),
+  phone: Yup.string().required('Digite o seu Celular'),
 })
 
 interface DataProps {
@@ -45,7 +46,11 @@ export function Cart() {
     resolver: yupResolver(schema)
   });
 
+  const { user } = useAuth();
+
   const dataQuery = useParams();
+
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
@@ -81,6 +86,7 @@ export function Cart() {
       full_name: form?.full_name,
       email: form?.email,
       cpf: form?.cpf,
+      phone: form?.phone,
 
       id_ticket: event?.map((event: any) => event.id),
       qtd_ticket_event: ticket,
@@ -88,7 +94,10 @@ export function Cart() {
       date_event: event?.map((event: any) => event.date),
       description_event: event?.map((event: any) => event.description)
     }).then(response => {
-      console.log(response.status)
+      if (response.status === 201) {
+        alert("Pedido finalizado com sucesso!")
+        navigate('/dashboard');
+      }
       setLoading(false);
     })
 
@@ -152,7 +161,7 @@ export function Cart() {
               />
               <Input
                 h="56px"
-                value="whfdev@gmail.com"
+                value={user?.email}
                 bg="brand.100"
                 focusBorderColor="none"
                 error={errors?.email}
@@ -164,6 +173,11 @@ export function Cart() {
                 placeholder="CPF"
                 error={errors?.cpf}
                 {...register('cpf')}
+              />
+              <Input
+                placeholder="Celular"
+                error={errors?.phone}
+                {...register('phone')}
               />
               <Button
                 h="56px"

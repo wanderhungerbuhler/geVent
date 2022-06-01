@@ -1,7 +1,6 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import app from '../../services/firebaseConfig';
-import { getAuth, onAuthStateChanged, setPersistence } from 'firebase/auth';
-import { useNavigate } from "react-router-dom";
+import { getAuth } from 'firebase/auth';
 
 interface AuthProvider {
   children: ReactNode;
