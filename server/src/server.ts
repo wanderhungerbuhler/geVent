@@ -12,6 +12,7 @@ app.use(express.json())
 const transport = nodemailer.createTransport({
   // GMAIL
   service: "gmail",
+  port: 465
   auth: {
     user: process.env.NODEMAILER_GMAIL_USER,
     pass: process.env.NODEMAILER_GMAIL_PASS,
